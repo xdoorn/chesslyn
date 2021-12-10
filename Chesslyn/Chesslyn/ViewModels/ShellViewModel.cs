@@ -1,28 +1,21 @@
-﻿/************************************\
- *                                   *
- *  Chesslyn 2021, Xander van Doorn  *
- *                                   *
-\************************************/
+﻿/**************************************\
+ *                                     *
+ *  Chesslyn © 2021, Xander van Doorn  *
+ *                                     *
+\**************************************/
+
+// .NET
+using System.Collections.ObjectModel;
 
 // Chesslyn
-using Chesslyn.Application.Interfaces;
 using Chesslyn.Application.Models;
-
 
 namespace Chesslyn.ViewModels
 {
   public class ShellViewModel : ModelBase
   {
-    public ShellViewModel(IApplicationCommands i_applicationCommands)
+    public ShellViewModel()
     {
-      ApplicationCommands = i_applicationCommands;
-    }
-
-
-    public IApplicationCommands ApplicationCommands 
-    { 
-      get => GetProperty<IApplicationCommands>(); 
-      set => SetProperty(value); 
     }
   }
 }

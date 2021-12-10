@@ -1,10 +1,12 @@
-﻿/************************************\
- *                                   *
- *  Chesslyn 2021, Xander van Doorn  *
- *                                   *
-\************************************/
+﻿/**************************************\
+ *                                     *
+ *  Chesslyn © 2021, Xander van Doorn  *
+ *                                     *
+\**************************************/
 
 // .NET
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 
 // Prism
@@ -14,8 +16,6 @@ using Prism.Unity;
 
 // Chesslyn
 using Chesslyn.Views;
-using Chesslyn.Application.Interfaces;
-using Chesslyn.Application.Commands;
 
 
 namespace Chesslyn
@@ -25,6 +25,11 @@ namespace Chesslyn
   /// </summary>
   public partial class App : PrismApplication
   {
+    public App()
+    {
+      Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
+    }
+
     protected override Window CreateShell()
     {
       return Container.Resolve<Shell>();
@@ -33,7 +38,6 @@ namespace Chesslyn
 
     protected override void RegisterTypes(IContainerRegistry i_containerRegistry)
     {
-      i_containerRegistry.Register<IApplicationCommands, ApplicationCommands>();
     }
 
 
