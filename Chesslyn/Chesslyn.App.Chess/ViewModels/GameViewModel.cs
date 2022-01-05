@@ -21,19 +21,11 @@ namespace Chesslyn.App.Chess.ViewModels
   {
     public GameViewModel()
     {
-      Close = new DelegateCommand(() => MessageBox.Show("Close"));
     }
 
     public string Header
     {
       get => GetProperty<string>();
-      set => SetProperty(value);
-    }
-
-
-    public ICommand Close
-    {
-      get => GetProperty<ICommand>();
       set => SetProperty(value);
     }
   }

@@ -12,20 +12,24 @@ using System.Windows.Input;
 
 // Prism
 using Prism.Commands;
+using Prism.Services.Dialogs;
 
 // Chesslyn
-using Chesslyn.Application.Models;
+using Chesslyn.Application.ViewModels;
+using Chesslyn.Application.Dialogs.Models;
 
 
 namespace Chesslyn.App.Chess.ViewModels
 {
-  public class WorkspaceViewModel : ModelBase
+  public class WorkspaceViewModel : ViewModelBase
   {
-    public WorkspaceViewModel()
+    public WorkspaceViewModel(IDialogService i_dialogService)
     {
+      m_dialogService = i_dialogService;
+
       NewGame = new DelegateCommand(OnNewGame);
-      SaveGame = new DelegateCommand(OnSaveGame);
-      CloseGame = new DelegateCommand(OnCloseGame);
+      SaveGame = new DelegateCommand(OnSaveGame, CanSaveGame);
+      CloseGame = new DelegateCommand(OnCloseGame, CanCloseGame);
     }
 
 
@@ -39,28 +43,48 @@ namespace Chesslyn.App.Chess.ViewModels
       }
     }
 
+
+    private bool CanSaveGame()
+    {
+      return ActiveGame != null;
+    }
+
+
     private void OnSaveGame()
     {
-      MessageBox.Show("Save Game");
+      if (m_dialogService.ShowYesNoQuestionDialog("Would you like to save this game?"))
+      {
+        m_dialogService.ShowOkInformationDialog("Game has been saved");
+      }
     }
+
 
     private void OnCloseGame()
     {
-      if (ActiveGame != null)
+      if (m_dialogService.ShowYesNoQuestionDialog("Are you sure to close the game?"))
       {
-        MessageBoxResult result = MessageBox.Show("Are you sure to close the game?", "Chesslyn", MessageBoxButton.YesNo);
-        if (result == MessageBoxResult.Yes)
-        {
-          Games.Remove(ActiveGame);
-        }
+        Games.Remove(ActiveGame);
       }
+    }
+
+
+    private bool CanCloseGame()
+    {
+      return ActiveGame != null;
     }
 
 
     public GameViewModel ActiveGame
     {
       get => GetProperty<GameViewModel>();
-      set => SetProperty(value);
+      set
+      {
+        if (SetProperty(value))
+        {
+          EvaluateCanExecute(SaveGame);
+          EvaluateCanExecute(CloseGame);
+        }
+      }
     }
 
 
@@ -86,5 +110,8 @@ namespace Chesslyn.App.Chess.ViewModels
       get => GetProperty<ICommand>();
       set => SetProperty(value);
     }
+
+
+    private readonly IDialogService m_dialogService = null;
   }
 }

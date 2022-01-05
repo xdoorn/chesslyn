@@ -13,6 +13,7 @@
   xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
   xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
   xmlns:prism="http://prismlibrary.com/"
+  xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=PresentationFramework"
   xmlns:local="clr-namespace:Chesslyn"
   mc:Ignorable="d"
   WindowState="Maximized"
@@ -45,19 +46,43 @@
     </mah:FlyoutsControl>
   </mah:MetroWindow.Flyouts>
 
-  <DockPanel>
-    <StatusBar DockPanel.Dock="Bottom">
-      <TextBlock Text="" />
-    </StatusBar>
+  <Grid>
+    <DockPanel x:Name="LayoutRoot">
+      <StatusBar DockPanel.Dock="Bottom">
+        <TextBlock Text="" />
+      </StatusBar>
 
-    <mah:MetroTabControl 
-      DockPanel.Dock="Left" 
-      Padding="10"
-      Margin="5"
-      TabStripPlacement="Left"
-      mah:TabControlHelper.Underlined="SelectedTabItem"
-      mah:TabControlHelper.UnderlinePlacement="Left"
-      prism:RegionManager.RegionName="AppsTabRegion"
-      Background="{DynamicResource MahApps.Brushes.ThemeBackground}" />
-  </DockPanel>
+      <mah:MetroTabControl 
+        DockPanel.Dock="Left" 
+        Padding="10"
+        Margin="5"
+        TabStripPlacement="Left"
+        mah:TabControlHelper.Underlined="SelectedTabItem"
+        mah:TabControlHelper.UnderlinePlacement="Left"
+        prism:RegionManager.RegionName="AppsTabRegion"
+        Background="{DynamicResource MahApps.Brushes.ThemeBackground}" />
+    </DockPanel>
+    
+    <!-- Gray background rectangle used when a dialog or window is hosted (see DialogService) -->
+    <Rectangle Fill="#aa555555">
+      <Rectangle.Style>
+        <!-- Create a style so that in the designer the overlay is always hidden, otherwise the view model decides whether to show or not -->
+        <Style TargetType="Rectangle">
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding DialogHosting.IsHosting}" Value="True">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding DialogHosting.IsHosting}" Value="False">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+
+            <!-- Hide the overlay when in design mode, because it is annoying during designing the view. -->
+            <Trigger Property="componentModel:DesignerProperties.IsInDesignMode" Value="True">
+              <Setter Property="Visibility" Value="Hidden"/>
+            </Trigger>
+          </Style.Triggers>
+        </Style>
+      </Rectangle.Style>
+    </Rectangle>
+  </Grid>
 </mah:MetroWindow>

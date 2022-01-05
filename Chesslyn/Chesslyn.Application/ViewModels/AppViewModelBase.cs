@@ -12,12 +12,12 @@ using Prism;
 using Prism.Regions;
 
 // Chesslyn
-using Chesslyn.Application.Models;
+using Chesslyn.Application.ViewModels;
 
 
 namespace Chesslyn.Application.ViewModels
 {
-  public abstract class AppViewModelBase : ModelBase, IActiveAware
+  public abstract class AppViewModelBase : ViewModelBase, IActiveAware
   {
     #region Public
     public AppViewModelBase(IRegionManager? i_regionManager)
