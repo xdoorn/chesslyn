@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="Chesslyn.App.Database.Databases.Views.DatabaseSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:Prism="http://prismlibrary.com/"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Prism:ViewModelLocator.AutoWireViewModel="True">
+  <Expander Header="Databases" IsExpanded="True">
+    <DockPanel LastChildFill="True">
+      <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="3">
+        <Button Content="{iconPacks:Modern Kind=Add}" Command="{Binding AddDatabase}" ToolTip="Add new database" Margin="2" Height="32" Width="32" />
+        <Button Content="{iconPacks:EvaIcons Kind=Close}" ToolTip="Remove database" Command="{Binding RemoveDatabase}" Margin="2" Height="32" Width="32" />
+      </StackPanel>
+
+      <ListView ItemsSource="{Binding Databases}" SelectedItem="{Binding SelectedDatabase}" DockPanel.Dock="Left" SelectionMode="Single">
+        <ListView.Resources>
+          <ContextMenu x:Key="ListItemContextMenu">
+            <MenuItem Header="Remove database" Command="{Binding Path=DataContext.RemoveDatabase, RelativeSource={RelativeSource AncestorType=ListView}}" />
+            <MenuItem Header="Show properties" IsCheckable="True" />
+          </ContextMenu>
+        </ListView.Resources>
+        
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Vertical">
+              <iconPacks:PackIconCodicons Kind="File" HorizontalAlignment="Center" Height="30" Width="30" Margin="5"/>
+              <TextBlock Text="{Binding DisplayOrFileName}" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Margin="5" />
+            </StackPanel>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+
+        <ListView.ItemContainerStyle>
+          <Style TargetType="{x:Type ListViewItem}">
+            <Setter Property="ContextMenu" Value="{StaticResource ListItemContextMenu}" />
+          </Style>
+        </ListView.ItemContainerStyle>
+        
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <WrapPanel></WrapPanel>
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+      </ListView>
+    </DockPanel>
+  </Expander>
+</UserControl>

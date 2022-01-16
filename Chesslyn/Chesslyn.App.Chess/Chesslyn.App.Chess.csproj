@@ -17,4 +17,21 @@
     <ProjectReference Include="..\Chesslyn.Application\Chesslyn.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Databases\Views\DatabaseProperties.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Databases\Views\DatabaseProperties.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Databases\Views\DatabaseSelectionView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

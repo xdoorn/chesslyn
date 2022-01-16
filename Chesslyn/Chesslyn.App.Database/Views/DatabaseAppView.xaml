@@ -6,6 +6,8 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:Prism="http://prismlibrary.com/"
+             xmlns:chesslyn_app_database_databases_view="clr-namespace:Chesslyn.App.Database.Databases.Views"
+             xmlns:chesslyn_app_database_games_view="clr-namespace:Chesslyn.App.Database.Games.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Height="64" Width="64"
@@ -21,31 +23,12 @@
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
 
-    <Expander Header="Databases" Grid.Row="0" Margin="5" IsExpanded="True">
-      <DockPanel>
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="3">
-          <Button Content="{iconPacks:Modern Kind=Add}" Command="{Binding AddDatabase}" ToolTip="Add new database" Margin="2" Height="32" Width="32" />
-          <Button Content="{iconPacks:EvaIcons Kind=Close}" ToolTip="Remove database" Command="{Binding RemoveDatabase}" Margin="2" Height="32" Width="32" />
-        </StackPanel>
-
-        <ListView ItemsSource="{Binding Databases}" SelectedItem="{Binding ActiveDatabase}" DockPanel.Dock="Top">
-          <ListView.ItemTemplate>
-            <DataTemplate>
-              <StackPanel Orientation="Vertical">
-                <iconPacks:PackIconCodicons Kind="File" HorizontalAlignment="Center" Height="30" Width="30" Margin="5"/>
-                <TextBlock Text="{Binding}" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Margin="5" />
-              </StackPanel>
-            </DataTemplate>
-          </ListView.ItemTemplate>
-          <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-              <WrapPanel></WrapPanel>
-            </ItemsPanelTemplate>
-          </ItemsControl.ItemsPanel>
-        </ListView>
-      </DockPanel>
-    </Expander>
+    <chesslyn_app_database_databases_view:DatabaseSelectionView Grid.Row="0" Margin="5" />
 
     <GroupBox Header="Games" Grid.Row="1" Margin="5">
       <DataGrid>
@@ -59,5 +42,33 @@
         </DataGrid.Columns>
       </DataGrid>
     </GroupBox>
+
+    <Expander ExpandDirection="Right" Grid.Column="1" Grid.RowSpan="2" Margin="5" IsExpanded="True">
+      <Expander.Header>
+        <TextBlock Text="DETAILS" HorizontalAlignment="Center" VerticalAlignment="Center">
+          <TextBlock.LayoutTransform>
+            <RotateTransform Angle="90" />
+          </TextBlock.LayoutTransform>
+        </TextBlock>
+      </Expander.Header>
+      <Expander.Content>
+        <DockPanel LastChildFill="True">
+          <GroupBox Header="Database Properties" DockPanel.Dock="Top">
+            <chesslyn_app_database_databases_view:DatabaseProperties />
+          </GroupBox>
+
+          <GroupBox Header="Position Viewer" DockPanel.Dock="Bottom">
+            <StackPanel Orientation="Vertical">
+              <TextBlock Text="tJnWlNjT&#x0a;OoOoOoOo&#x0a;A+A+A+A+&#x0a;+A+A+A+A&#x0a;A+A+A+A+&#x0a;+A+A+A+A&#x0a;pPpPpPpP&#x0a;RhBqKbHr" FontFamily="Chess" FontSize="32" Margin="2" HorizontalAlignment="Center" />
+              <TextBlock Text="White on move" HorizontalAlignment="Center" Margin="5" />
+            </StackPanel>
+          </GroupBox>
+
+          <GroupBox Header="Game Header">
+            <chesslyn_app_database_games_view:GameHeaderView />
+          </GroupBox>
+        </DockPanel>
+      </Expander.Content>
+    </Expander>
   </Grid>
 </mah:MetroTabItem>

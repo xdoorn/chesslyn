@@ -10,6 +10,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Databases\Views\DatabaseProperties.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Databases\Views\DatabaseSelectionView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\ChessAppView.xaml">
       <SubType>Designer</SubType>
     </Page>

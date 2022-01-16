@@ -142,6 +142,7 @@ namespace Chesslyn.Application.Dialogs.Models
       openFileDialog.Title = title;
       openFileDialog.Filter = filter;
       openFileDialog.InitialDirectory = initialDirectory;
+      openFileDialog.Multiselect = true;
 
       bool? result = openFileDialog.ShowDialog();
       if (i_callback != null)
@@ -152,7 +153,9 @@ namespace Chesslyn.Application.Dialogs.Models
           buttonResult = ButtonResult.OK;
         }
 
-        DialogParameters dialogParameters = new DialogParameters($"FileName={openFileDialog.FileName}");
+        DialogParameters dialogParameters = new DialogParameters();
+        dialogParameters.Add("FileNames", openFileDialog.FileNames);
+
         IDialogResult dialogResult = new DialogResult(buttonResult, dialogParameters);
         i_callback.Invoke(dialogResult);
       }

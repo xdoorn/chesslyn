@@ -43,7 +43,6 @@ namespace Chesslyn
     protected override void RegisterTypes(IContainerRegistry i_containerRegistry)
     {
       i_containerRegistry.RegisterManySingleton<ChesslynDialogService>(typeof(IDialogService), typeof(IDialogHosting));
-      i_containerRegistry.RegisterDialog<MessageBoxDialog, MessageBoxDialogViewModel>();
     }
 
 

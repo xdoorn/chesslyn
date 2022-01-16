@@ -6,6 +6,8 @@
 
 // .NET
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 
@@ -31,9 +33,9 @@ namespace Chesslyn.Application.Dialogs.Models
     }
 
 
-    public static bool ShowOpenFileDialog(this IDialogService i_dialogService, out string o_fileName, string i_title = "Chesslyn", string i_filter = "", string i_initialDirectory = "")
+    public static bool ShowOpenFileDialog(this IDialogService i_dialogService, out IEnumerable<FileInfo> o_selectedFiles, string i_title = "Chesslyn", string i_filter = "", string i_initialDirectory = "")
     {
-      return ProcessShowOpenFileDialog(i_dialogService, out o_fileName, i_title, i_filter, i_initialDirectory);
+      return ProcessShowOpenFileDialog(i_dialogService, out o_selectedFiles, i_title, i_filter, i_initialDirectory);
     }
 
     #endregion
@@ -69,9 +71,9 @@ namespace Chesslyn.Application.Dialogs.Models
       return dialogResult;
     }
 
-    private static bool ProcessShowOpenFileDialog(this IDialogService i_dialogService, out string o_fileName, string i_title, string i_filter, string i_initialDirectory)
+    private static bool ProcessShowOpenFileDialog(this IDialogService i_dialogService, out IEnumerable<FileInfo> o_selectedFiles, string i_title, string i_filter, string i_initialDirectory)
     {
-      o_fileName = string.Empty;
+      o_selectedFiles = new List<FileInfo>();
 
       var dialogParameters = new DialogParameters();
       dialogParameters.Add("Title", i_title);
@@ -79,10 +81,10 @@ namespace Chesslyn.Application.Dialogs.Models
       dialogParameters.Add("InitialDirectory", i_initialDirectory);
 
       bool result = false;
-      string fileName = string.Empty;
+      string[] fileNames = { };
       Action<IDialogResult> completeAction = (dialogResult) =>
       {
-        dialogResult.Parameters.TryGetValue("FileName", out fileName);
+        dialogResult.Parameters.TryGetValue("FileNames", out fileNames);
 
         ButtonResult[] okOrYesButtonResults = { ButtonResult.OK, ButtonResult.Yes };
         if (okOrYesButtonResults.Contains(dialogResult.Result))
@@ -93,9 +95,9 @@ namespace Chesslyn.Application.Dialogs.Models
 
       i_dialogService.ShowDialog(DialogNames.OpenFileDialog, dialogParameters, completeAction);
 
-      if (fileName != null)
+      if (fileNames.Any())
       {
-        o_fileName = fileName;
+        ((List<FileInfo>) o_selectedFiles).AddRange(fileNames.Select(f => new FileInfo(f)));
       }
 
       return result;
